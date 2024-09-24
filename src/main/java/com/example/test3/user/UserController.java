@@ -45,7 +45,7 @@ public class UserController {
 
         try {
             userService.create(userCreateForm.getUsername(),
-                    userCreateForm.getEmail(), userCreateForm.getPassword1());
+                    userCreateForm.getNickname(), userCreateForm.getPassword1());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed",
@@ -53,7 +53,6 @@ public class UserController {
             return "signup_form";
         } catch (Exception e) {
             e.printStackTrace();
-            ;
             bindingResult.reject("signupFailed", e.getMessage());
             return "signup_form";
         }

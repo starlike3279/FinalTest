@@ -10,13 +10,16 @@
                 </div>
             </div>
             <div class="my-3">
-                <a th:href="@{|/article/modify/${article.id}|}" class="btn btn-sm btn-outline-secondary"
+                <a th:href="@{|/article/modify/${article.id}|}"
+                   class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
-                   th:if="${article.author != null and #authentication.getPrincipal().getUsername() == article.author.username}"
+                   th:if="${article.author != null
+                   and #authentication.getPrincipal().getUsername() == article.author.username}"
                    th:text="수정"></a>
                 <a href="javascript:void(0);" th:data-uri="@{|/article/delete/${article.id}|}"
                    class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-                   th:if="${article.author != null and #authentication.getPrincipal().getUsername() == article.author.username}"
+                   th:if="${article.author != null
+                   and #authentication.getPrincipal().getUsername() == article.author.username}"
                    th:text="삭제"></a>
             </div>
         </div>

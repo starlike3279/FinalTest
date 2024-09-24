@@ -2,8 +2,6 @@ package com.example.test3.article;
 
 import com.example.test3.user.SiteUser;
 import com.example.test3.user.UserService;
-import com.example.test3.article.ArticleForm;
-import com.example.test3.article.ArticleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.security.Principal;
 
 @RequestMapping("/article")
@@ -26,7 +23,8 @@ public class ArticleController {
     private final UserService userService;
 
     @GetMapping("/list")
-    public String articleList(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+    public String articleList(Model model,
+                              @RequestParam(value = "page", defaultValue = "0") int page) {
         Page<Article> paging = this.articleService.getList(page);
         model.addAttribute("paging", paging);
         return "article_list";
@@ -41,7 +39,8 @@ public class ArticleController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String create(@Valid ArticleForm articleForm, BindingResult bindingResult, Principal principal) {
+    public String create(@Valid ArticleForm articleForm,
+                         BindingResult bindingResult, Principal principal) {
         SiteUser siteUser = this.userService.getUser(principal.getName());
         if (bindingResult.hasErrors()) {
             return "article_form";
@@ -59,7 +58,8 @@ public class ArticleController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String articleModify(ArticleForm articleForm, @PathVariable("id") Integer id, Principal principal) {
+    public String articleModify(ArticleForm articleForm,
+                                @PathVariable("id") Integer id, Principal principal) {
         Article article = this.articleService.getArticle(id);
         if (!article.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
